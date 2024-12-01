@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Shop - Scent U</title>
+</head>
+<body>
+  <header>
+    <div class="navbar" style="background-color: white;">
+      <div class="logo">Scent U</div>
+      <div class="user-options">
+        <a href="index.html">Home</a>
+        <a href="signin.html">Sign In</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="contactus.html">Contact Us</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="cart.html"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="shop" style="background-color:white">
+      <h1>Our Collection</h1>
+    </section>
+
+    <section class="products">
+      <h2>Fragrance Collection</h2>
+      <div class="product-grid">
+        <div class="product">
+          <div class="image" style="background-image: url(aura\ air.jpg);"></div>
+          <h3>Aura Air</h3>
+          <p>30000 won</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+          <button class="add-to-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+         
+        </div>
+        <div class="product">
+          <div class="image" style="background-image: url(enamor.jpg);"></div>
+          <h3>Enamor</h3>
+          <p>30000 won</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+          <button class="add-to-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+         
+        </div>
+        <div class="product">
+          <div class="image" style="background-image: url(mind\ spark.jpg);"></div>
+          <h3>Mind Spark</h3>
+          <p>30000 won</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+          <button class="add-to-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+          
+        </div>
+        <div class="product">
+          <div class="image" style="background-image: url(serenity.jpg);"></div>
+          <h3>Serenity</h3>
+          <p>30000 won</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+          <button class="add-to-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+        
+        </div>
+        <div class="product">
+          <div class="image" style="background-image: url(set.jpg);"></div>
+          <h3>Set</h3>
+          <p>100000 won</p>
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+          <button class="add-to-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+        
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Scent U. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Function to add items to the cart
+    function addToCart(productName, productPrice, quantity) {
+      const product = {
+        name: productName,
+        price: productPrice,
+        quantity: quantity
+      };
+
+      // Get the current cart from localStorage or create a new one
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Add the new product to the cart (check if product already exists and update quantity)
+      const existingProductIndex = cart.findIndex(item => item.name === productName);
+      if (existingProductIndex > -1) {
+        cart[existingProductIndex].quantity += quantity;
+      } else {
+        cart.push(product);
+      }
+
+      // Save the updated cart back to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      alert(`${productName} has been added to your cart.`);
+    }
+
+    // Attach event listeners to all "Add to Cart" buttons
+    document.querySelectorAll('.add-to-cart').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const productElement = event.target.closest('.product');
+        const productName = productElement.querySelector('h3').innerText;
+        const productPrice = parseInt(productElement.querySelector('p').innerText.replace(' won', '').replace(',', ''));
+        const quantity = parseInt(productElement.querySelector('input[name="quantity"]').value);
+
+        addToCart(productName, productPrice, quantity);
+      });
+    });
+  </script>
+</body>
+</html>

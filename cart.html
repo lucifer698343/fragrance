@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Shopping Cart - Scent U</title>
+</head>
+<body class="cart-page">
+  <!-- Navigation -->
+  <header>
+    <div class="navbar" style="background-color: white;">
+      <div class="logo">Scent U</div>
+      <div class="user-options">
+        <a href="index.html">Home</a>
+        <a href="signin.html">Sign In</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="contactus.html">Contact Us</a>
+        <a href="shop.html"><i class="fa-solid fa-cart-shopping"></i> Shop</a>
+        <a href="cart.html" class="active"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1 style="color: #FAD6A5;">Your Shopping Cart</h1>
+    <p>Product list.</p>
+
+    <!-- Cart Table -->
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="cart-items">
+        <!-- Cart items will be dynamically added here -->
+      </tbody>
+    </table>
+
+    <!-- Total Section -->
+    <div class="cart-total">
+      <h3>Total: <span id="total-amount">0</span> won</h3>
+      <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+  </main>
+
+ 
+
+  <script>
+    // Function to display the cart items
+    function displayCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItemsContainer = document.getElementById('cart-items');
+      const totalAmount = document.getElementById('total-amount');
+
+      // Clear the cart table before re-adding items
+      cartItemsContainer.innerHTML = '';
+
+      // Calculate the total price
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const row = document.createElement('tr');
+        
+        // Product name
+        const nameCell = document.createElement('td');
+        nameCell.innerText = item.name;
+        row.appendChild(nameCell);
+
+        // Product quantity (no input field, just display the quantity)
+        const quantityCell = document.createElement('td');
+        quantityCell.innerText = item.quantity;
+        row.appendChild(quantityCell);
+
+        // Product price
+        const priceCell = document.createElement('td');
+        priceCell.innerText = `${item.price * item.quantity} won`;
+        row.appendChild(priceCell);
+
+        // Remove button
+        const removeCell = document.createElement('td');
+        const removeButton = document.createElement('button');
+        removeButton.innerText = 'Remove';
+        removeButton.addEventListener('click', () => removeFromCart(index));
+        removeCell.appendChild(removeButton);
+        row.appendChild(removeCell);
+
+        cartItemsContainer.appendChild(row);
+
+        // Add to total price
+        total += item.price * item.quantity;
+      });
+
+      totalAmount.innerText = total;
+    }
+
+    // Function to remove an item from the cart
+    function removeFromCart(index) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+    }
+
+    // Initial call to display the cart items
+    displayCart();
+  </script>
+</body>
+</html>
